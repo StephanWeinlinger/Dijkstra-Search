@@ -84,20 +84,7 @@ void Graph::dijkstra(std::string startName, std::string endName) {
 		processed.push_back(queue[0]);
 		queue.erase(queue.begin());
 	}
-	//printQueue(queue, processed);
 	printRoute(processed);
-}
-
-void Graph::printQueue(std::vector<priorityEntry> queue, std::vector<priorityEntry> processed) {
-	for(auto i : processed) {
-		std::cout << i.m_entry->m_name << ": " << i.m_weight << " " << i.m_parentType << std::endl;
-	}
-	std::cout << "--------------------------" << std::endl;
-	for(auto i : queue) {
-		if(i.m_weight != 0) {
-			std::cout << i.m_entry->m_name << ": " << i.m_weight << " " << i.m_parentType << std::endl;
-		}
-	}
 }
 
 void Graph::printRoute(std::vector<priorityEntry> processed) {

@@ -1,10 +1,15 @@
 #include "Controller.h"
 
+bool compareAdjacent(adjEntry entry1, adjEntry entry2) {
+	return entry1.m_weight < entry2.m_weight;
+}
+
 void Controller::startTask(char** argv) {
 	//readGraph(argv[1]);
 	readGraph("input.txt");
+	sortAdjacent();
 	if(m_graph.m_head != nullptr) {
-		m_graph.dijkstra("Heiligenstadt", "Beethovengang");
+		m_graph.dijkstra("Anton-Schall-Gasse", "Heiligenstadt");
 	}
 	else {
 		std::cout << "File is empty!" << std::endl;
@@ -22,6 +27,12 @@ void Controller::readGraph(std::string filename) {
 	}
 	else {
 		std::cout << "File is opened or not existent!" << std::endl;
+	}
+}
+
+void Controller::sortAdjacent() {
+	for(pstationEntry p = m_graph.m_head; p != nullptr; p = p->m_next) {
+		sort(p->m_adjStations.begin(), p->m_adjStations.end(), compareAdjacent);
 	}
 }
 
