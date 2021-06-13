@@ -3,9 +3,8 @@
 void Controller::startTask(char** argv) {
 	//readGraph(argv[1]);
 	readGraph("input.txt");
-	printCompleteGraph();
 	if(m_graph.m_head != nullptr) {
-		// start the search
+		m_graph.dijkstra("Heiligenstadt", "Beethovengang");
 	}
 	else {
 		std::cout << "File is empty!" << std::endl;

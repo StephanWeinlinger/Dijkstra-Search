@@ -142,6 +142,7 @@
     <ClCompile Include="Controller.cpp" />
     <ClCompile Include="Graph.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Structs.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Controller.h" />
