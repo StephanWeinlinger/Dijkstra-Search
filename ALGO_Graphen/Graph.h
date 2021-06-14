@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <algorithm>
+#include <chrono>
 #include "Structs.h"
 
 class Graph {
@@ -14,7 +15,7 @@ public:
 	void addStationEntry(std::string name);
 	pstationEntry getStationEntry(std::string name);
 	void dijkstra(std::string startName, std::string endName);
-	void printRoute(std::vector<priorityEntry> processed);
+	void printRoute(std::vector<priorityEntry> processed, int duration);
 	void calculateStats(std::vector<priorityEntry> &finalRoute);
 	int printTransport(int index, int size, std::vector<std::string>& transportList);
 

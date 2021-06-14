@@ -1,6 +1,6 @@
 #include "Graph.h"
 
-bool compare(priorityEntry entry1, priorityEntry entry2) {
+bool compareWeight(priorityEntry entry1, priorityEntry entry2) {
 	if(entry1.m_weight == 0) {
 		return false;
 	}
@@ -36,8 +36,8 @@ pstationEntry Graph::getStationEntry(std::string name) {
 	return nullptr;
 }
 
-// DONT FORGET TO SORT THE ADJACENT STATIONS!!!
 void Graph::dijkstra(std::string startName, std::string endName) {
+	auto startTimer = std::chrono::high_resolution_clock::now();
 	pstationEntry start = nullptr;
 	std::vector<priorityEntry> queue;
 	std::vector<priorityEntry> processed;
@@ -53,7 +53,6 @@ void Graph::dijkstra(std::string startName, std::string endName) {
 			queue.push_back(entry);
 		}
 	}
-	std::sort(queue.begin(), queue.end(), compare);
 	while(1) {
 		for(auto adjEntry : start->m_adjStations) {
 			if(adjEntry.m_entry->m_processed) { // skip already processed nodes (better than searching the whole processed vector)
@@ -75,7 +74,7 @@ void Graph::dijkstra(std::string startName, std::string endName) {
 				}
 			}
 		}
-		std::sort(queue.begin(), queue.end(), compare);
+		std::sort(queue.begin(), queue.end(), compareWeight);
 		if(!start->m_name.compare(endName)) {
 			break;
 		}
@@ -84,10 +83,12 @@ void Graph::dijkstra(std::string startName, std::string endName) {
 		processed.push_back(queue[0]);
 		queue.erase(queue.begin());
 	}
-	printRoute(processed);
+	auto stopTimer = std::chrono::high_resolution_clock::now();
+	auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stopTimer - startTimer);
+	printRoute(processed, duration.count());
 }
 
-void Graph::printRoute(std::vector<priorityEntry> processed) {
+void Graph::printRoute(std::vector<priorityEntry> processed, int duration) {
 	std::string next = processed.back().m_entry->m_name;
 	std::vector<priorityEntry> printList;
 	for(std::vector<priorityEntry>::reverse_iterator entry = processed.rbegin(); entry != processed.rend(); ++entry) {
@@ -110,8 +111,9 @@ void Graph::printRoute(std::vector<priorityEntry> processed) {
 		}
 	}
 	std::cout << std::endl << std::endl << "STATS ==========================================" << std::endl;
+	std::cout << " - Calculation Time: " << duration << "ms" << std::endl;
 	std::cout << " - Cost: " << processed.back().m_weight << std::endl;
-	this->calculateStats(printList);
+	calculateStats(printList);
 }
 
 void Graph::calculateStats(std::vector<priorityEntry> & finalRoute){
