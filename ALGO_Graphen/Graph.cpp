@@ -86,11 +86,10 @@ void Graph::dijkstra(std::string startName, std::string endName) {
 	}
 	auto stopTimer = std::chrono::high_resolution_clock::now();
 	auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stopTimer - startTimer);
-	std::cout << duration.count() << std::endl;
-	printRoute(processed);
+	printRoute(processed, duration.count());
 }
 
-void Graph::printRoute(std::vector<priorityEntry> processed) {
+void Graph::printRoute(std::vector<priorityEntry> processed, int duration) {
 	std::string next = processed.back().m_entry->m_name;
 	std::vector<priorityEntry> printList;
 	for(std::vector<priorityEntry>::reverse_iterator entry = processed.rbegin(); entry != processed.rend(); ++entry) {
@@ -113,8 +112,9 @@ void Graph::printRoute(std::vector<priorityEntry> processed) {
 		}
 	}
 	std::cout << std::endl << std::endl << "STATS ==========================================" << std::endl;
+	std::cout << " - Calculation Time: " << duration << "ms" << std::endl;
 	std::cout << " - Cost: " << processed.back().m_weight << std::endl;
-	this->calculateStats(printList);
+	calculateStats(printList);
 }
 
 void Graph::calculateStats(std::vector<priorityEntry> & finalRoute){
@@ -141,8 +141,8 @@ void Graph::calculateStats(std::vector<priorityEntry> & finalRoute){
 	std::cout << " - Number of stations: " << numberOfStations << std::endl;
 	std::cout << " - Changes: " << numberOfChanges << std::endl;
 	std::cout << " - Used Transports: ";
-	for (int i = 0; i < transportList.size(); i++){
-		std::cout << transportList[i] << ", ";
+	for(auto name : transportList) {
+		std::cout << "[" << name << "] ";
 	}
 	std::cout << std::endl;
 }

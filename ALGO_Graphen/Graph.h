@@ -15,6 +15,6 @@ public:
 	void addStationEntry(std::string name);
 	pstationEntry getStationEntry(std::string name);
 	void dijkstra(std::string startName, std::string endName);
-	void printRoute(std::vector<priorityEntry> processed);
+	void printRoute(std::vector<priorityEntry> processed, int duration);
 	void calculateStats(std::vector<priorityEntry> &finalRoute);
 };
