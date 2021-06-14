@@ -92,15 +92,57 @@ void Graph::dijkstra(std::string startName, std::string endName) {
 
 void Graph::printRoute(std::vector<priorityEntry> processed) {
 	std::string next = processed.back().m_entry->m_name;
+	std::vector<priorityEntry> printList;
 	for(std::vector<priorityEntry>::reverse_iterator entry = processed.rbegin(); entry != processed.rend(); ++entry) {
 		if(!entry->m_entry->m_name.compare(next)) {
 			if(entry->m_parentEntry == nullptr) {
-				std::cout << entry->m_entry->m_name << std::endl;
-				std::cout << "Cost: " << processed.back().m_weight << std::endl;
+				printList.push_back(*entry);
 				break;
 			}
-			std::cout << entry->m_entry->m_name << " <- " << entry->m_parentType << " <- ";
+			printList.push_back(*entry);
 			next = entry->m_parentEntry->m_name;
 		}	
 	}
+
+	for (std::vector<priorityEntry>::reverse_iterator entry = printList.rbegin(); entry != printList.rend(); ++entry) {
+		if (entry->m_parentEntry == nullptr) {
+			std::cout << "[START]: " << entry->m_entry->m_name;
+		}
+		else {
+			std::cout << " -> " << "[" << entry->m_parentType << "]" << " -> "  << entry->m_entry->m_name;
+		}
+	}
+	std::cout << std::endl << std::endl << "STATS ==========================================" << std::endl;
+	std::cout << " - Cost: " << processed.back().m_weight << std::endl;
+	this->calculateStats(printList);
+}
+
+void Graph::calculateStats(std::vector<priorityEntry> & finalRoute){
+	std::string lastTransport = "";
+	unsigned int numberOfChanges = 0;
+	unsigned int numberOfStations = 0;
+	std::vector<std::string> transportList;
+
+	for (std::vector<priorityEntry>::reverse_iterator entry = finalRoute.rbegin(); entry != finalRoute.rend(); ++entry) {
+		if (entry->m_parentEntry == nullptr) {
+			
+		}
+		else {
+			if (lastTransport.compare(entry->m_parentType) != 0) {
+				if (lastTransport != "") {
+					numberOfChanges++;
+				}
+				transportList.push_back(entry->m_parentType);
+			}
+			lastTransport = entry->m_parentType;
+			numberOfStations++;
+		}
+	}
+	std::cout << " - Number of stations: " << numberOfStations << std::endl;
+	std::cout << " - Changes: " << numberOfChanges << std::endl;
+	std::cout << " - Used Transports: ";
+	for (int i = 0; i < transportList.size(); i++){
+		std::cout << transportList[i] << ", ";
+	}
+	std::cout << std::endl;
 }
