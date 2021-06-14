@@ -9,7 +9,7 @@ void Controller::startTask(char** argv) {
 	readGraph("input.txt");
 	sortAdjacent();
 	if(m_graph.m_head != nullptr) {
-		m_graph.dijkstra("Anton-Schall-Gasse", "Heiligenstadt");
+		m_graph.dijkstra("Sechskruegelgasse", "Landesgerichtsstrasse");
 	}
 	else {
 		std::cout << "File is empty!" << std::endl;
