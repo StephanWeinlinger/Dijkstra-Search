@@ -138,8 +138,19 @@ void Graph::calculateStats(std::vector<priorityEntry> & finalRoute){
 	std::cout << " - Number of stations: " << numberOfStations << std::endl;
 	std::cout << " - Changes: " << numberOfChanges << std::endl;
 	std::cout << " - Used Transports: ";
-	for (int i = 0; i < transportList.size(); i++){
-		std::cout << transportList[i] << ", ";
-	}
+	this->printTransport(0, transportList.size(), transportList);
+	
 	std::cout << std::endl;
+}
+
+int Graph::printTransport(int index, int size, std::vector<std::string> &transportList) {
+	std::cout << transportList[index] << ", ";
+	index++;
+	if (index != size) {
+		this->printTransport(index, size, transportList);
+	}
+	else {
+		return 0;
+	}
+	
 }
