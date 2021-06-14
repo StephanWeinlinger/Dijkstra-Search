@@ -5,11 +5,10 @@ bool compareAdjacent(adjEntry entry1, adjEntry entry2) {
 }
 
 void Controller::startTask(char** argv) {
-	//readGraph(argv[1]);
-	readGraph("input.txt");
+	readGraph(argv[1]);
 	sortAdjacent();
 	if(m_graph.m_head != nullptr) {
-		m_graph.dijkstra("Sechskruegelgasse", "Landesgerichtsstrasse");
+		m_graph.dijkstra(argv[2], argv[3]);
 	}
 	else {
 		std::cout << "File is empty!" << std::endl;

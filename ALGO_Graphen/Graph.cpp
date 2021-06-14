@@ -53,7 +53,6 @@ void Graph::dijkstra(std::string startName, std::string endName) {
 			queue.push_back(entry);
 		}
 	}
-	std::sort(queue.begin(), queue.end(), compareWeight);
 	while(1) {
 		for(auto adjEntry : start->m_adjStations) {
 			if(adjEntry.m_entry->m_processed) { // skip already processed nodes (better than searching the whole processed vector)
